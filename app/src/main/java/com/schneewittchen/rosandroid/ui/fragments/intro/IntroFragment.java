@@ -1,6 +1,5 @@
 package com.schneewittchen.rosandroid.ui.fragments.intro;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView;
 import com.schneewittchen.rosandroid.R;
 import com.schneewittchen.rosandroid.ui.fragments.main.MainFragment;
 import com.schneewittchen.rosandroid.viewmodel.IntroViewModel;
@@ -52,7 +50,6 @@ public class IntroFragment extends Fragment {
     Animation buttonAnimation;
     Button buttonConfiguration;
     EditText editTextConfigName;
-    YouTubePlayerView videoView;
     IntroViewModel mViewModel;
     List<ScreenItem> screenItems;
     int itemPosition;
@@ -78,7 +75,6 @@ public class IntroFragment extends Fragment {
         buttonConfiguration = view.findViewById(R.id.onboarding_btn_startConfig);
         editTextConfigName = view.findViewById(R.id.onboarding_editText_configName);
         tabIndicator = view.findViewById(R.id.tabIndicator);
-        videoView = view.findViewById(R.id.onboarding_video_view);
         buttonAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.onboarding_buttton_animation);
 
         // Setup the viewPager
@@ -108,9 +104,6 @@ public class IntroFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-        // Set the video
-        getLifecycle().addObserver(videoView);
 
         // next button click listener
         buttonNext.setOnClickListener(v -> {
@@ -186,14 +179,12 @@ public class IntroFragment extends Fragment {
         buttonGetStarted.setVisibility(View.VISIBLE);
         tabIndicator.setVisibility(View.INVISIBLE);
         screenPager.setVisibility(View.INVISIBLE);
-        videoView.setVisibility(View.VISIBLE);
     }
 
     private void loadConfigNameScreen() {
         buttonGetStarted.setAnimation(null);
         buttonConfiguration.setAnimation(buttonAnimation);
         buttonGetStarted.setVisibility(View.INVISIBLE);
-        videoView.setVisibility(View.INVISIBLE);
         buttonConfiguration.setVisibility(View.VISIBLE);
         editTextConfigName.setVisibility(View.VISIBLE);
     }
