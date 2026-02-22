@@ -128,11 +128,29 @@ public class RosRepository implements SubNode.NodeListener {
             TFMessage tf = (TFMessage) message.getMessage();
 
             for (TransformStamped transform: tf.getTransforms()) {
+                String child = transform.getChildFrameId();
+                String parent = transform.getHeader().getFrameId();
+
+                child = sanitizeFrameName(child);
+                parent = sanitizeFrameName(parent);
+
+                transform.setChildFrameId(child);
+                transform.getHeader().setFrameId(parent);
                 frameTransformTree.update(transform);
             }
         }
 
         this.receivedData.postValue(message);
+    }
+
+    private String sanitizeFrameName(String name) {
+        if (name == null || name.isEmpty()) return name;
+
+        if (Character.isDigit(name.charAt(0))) {
+            return "f_" + name;
+        }
+
+        return name;
     }
 
     /**
